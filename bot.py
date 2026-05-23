@@ -1,14 +1,18 @@
 import telebot
-import os
+from telebot import apihelper
 
-# ضع التوكن هنا مباشرة
+# --- الإعدادات ---
 TOKEN = "8631743081:AAEvmAimlcDXO7nAdrun8QSBRSD8p5i6nio"
+
+# تفعيل البروكسي (سنستخدم خدمة مجانية لكسر الحظر)
+# ملاحظة: إذا استمر الخطأ، سنحاول ربط البوت بـ VPN
+apihelper.proxy = {'https': 'http://167.172.235.163:3128'} 
+
 bot = telebot.TeleBot(TOKEN)
 
 @bot.message_handler(commands=['start'])
-def send_welcome(message):
-    bot.reply_to(message, "البوت يعمل الآن! قريباً سنضيف نظام النقاط.")
+def start(message):
+    bot.reply_to(message, "البوت متصل الآن بنجاح!")
 
-# هذا السطر هو الأهم في Railway ليبقى البوت شغالاً
-print("البوت يعمل الآن بنجاح ولا يتوقف...")
-bot.infinity_polling(none_stop=True)
+print("--- البوت يعمل الآن ---")
+bot.infinity_polling()
