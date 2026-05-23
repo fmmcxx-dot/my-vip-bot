@@ -19,7 +19,9 @@ DATA_FILE = "users_data.json"
 
 # --- كود البقاء نشطاً (للـ Railway) ---
 app = Flask(  )
-@app.route( / )
+@app.route('/')
+def home(): return "البوت يعمل الآن!"
+
 def home(): return "البوت يعمل الآن!"
 def run(): app.run(host= 0.0.0.0 , port=int(os.environ.get( PORT , 8080)))
 t = Thread(target=run)
