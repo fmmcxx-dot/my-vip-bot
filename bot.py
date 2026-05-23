@@ -46,4 +46,14 @@ def start(message):
     data = load_data()
     if user_id not in data:
         data[user_id] = {'points': 0}
-        ref = message.text.split()[1] if len(message.text.split()) > 1
+                # كشف الإحالة
+        ref = None
+        command_parts = message.text.split()
+        if len(command_parts) > 1:
+            ref = command_parts[1]
+            
+        if ref and ref in data and ref != user_id:
+            data[ref]['points'] += 1
+            try: bot.send_message(ref, f"🎉 شخص جديد دخل عبر رابطك! حصلت على نقطة واحدة.")
+            except: pass
+
