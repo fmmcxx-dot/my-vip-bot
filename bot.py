@@ -1,24 +1,14 @@
 import telebot
 import os
-from flask import Flask
-from threading import Thread
 
+# ضع التوكن هنا مباشرة
 TOKEN = "8631743081:AAEvmAimlcDXO7nAdrun8QSBRSD8p5i6nio"
 bot = telebot.TeleBot(TOKEN)
-app = Flask(__name__)
-
-@app.route('/')
-def home():
-    return "البوت يعمل!"
-
-def run():
-    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 8080)))
 
 @bot.message_handler(commands=['start'])
-def start(message):
-    bot.reply_to(message, "البوت يعمل الآن بنجاح!")
+def send_welcome(message):
+    bot.reply_to(message, "البوت يعمل الآن! قريباً سنضيف نظام النقاط.")
 
-if __name__ == "__main__":
-    Thread(target=run).start()
-    print("--- البوت يعمل الآن ---")
-    bot.infinity_polling()
+# هذا السطر هو الأهم في Railway ليبقى البوت شغالاً
+print("البوت يعمل الآن بنجاح ولا يتوقف...")
+bot.infinity_polling(none_stop=True)
