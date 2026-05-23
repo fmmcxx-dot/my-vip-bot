@@ -1,3 +1,4 @@
+
 import telebot
 import json
 import os
@@ -18,51 +19,51 @@ DATA_FILE = "users_data.json"
 # --- كود البقاء نشطاً ---
 app = Flask(__name__)
 
-@app.route('/')
+@app.route( / )
 def home():
-    return "البوت يعمل الآن!"
+    return "البوت يعمل!"
 
 def run_flask():
-    port = int(os.environ.get('PORT', 8080))
-    app.run(host='0.0.0.0', port=port)
+    port = int(os.environ.get( PORT , 8080))
+    app.run(host= 0.0.0.0 , port=port)
 
-# تشغيل Flask في خلفية
 t = Thread(target=run_flask)
 t.start()
 
-# --- وظائف البيانات ---
+# --- الوظائف ---
 def load_data():
     if os.path.exists(DATA_FILE):
-        with open(DATA_FILE, 'r') as f:
+        with open(DATA_FILE,  r ) as f:
             try: return json.load(f)
             except: return {}
     return {}
 
 def save_data(data):
-    with open(DATA_FILE, 'w') as f:
+    with open(DATA_FILE,  w ) as f:
         json.dump(data, f)
 
 # --- الأوامر ---
-@bot.message_handler(commands=['start'])
+@bot.message_handler(commands=[ start ])
 def start(message):
     user_id = str(message.chat.id)
     data = load_data()
     if user_id not in data:
-        data[user_id] = {'points': 0}
+        data[user_id] = { points : 0}
         save_data(data)
     
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     markup.row("👤 الحساب", "🎯 كسب النقاط")
-    bot.send_message(user_id, "مرحباً بك في نظام البوت!", reply_markup=markup)
+    bot.send_message(user_id, "أهلاً بك في البوت!", reply_markup=markup)
 
-@bot.message_handler(func=lambda m: True)
+@bot.message_handler(func=lambda message: True)
 def handle_text(message):
     user_id = str(message.chat.id)
     if message.text == "👤 الحساب":
         data = load_data()
-        pts = data.get(user_id, {}).get('points', 0)
-        bot.send_message(user_id, f"رصيدك: {pts}")
+        pts = data.get(user_id, {}).get( points , 0)
+        bot.send_message(user_id, f"رصيدك: {pts} نقاط")
+    elif message.text == "🎯 كسب النقاط":
+        bot.send_message(user_id, f"رابطك: https://t.me/{BOT_USERNAME}?start={user_id}")
 
-if __name__ == "__main__":
-    print("--- البوت يعمل الآن بنجاح ---")
-    bot.infinity_polling()
+print("--- البوت جاهز للعمل ---")
+bot.infinity_polling()
